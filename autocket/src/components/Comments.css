@@ -1,0 +1,110 @@
+.comments-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.comments-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.comments-header button {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #888;
+  cursor: pointer;
+}
+.comments-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.comments-form textarea {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  resize: none;
+  font-size: 1rem;
+}
+.comments-form button {
+  align-self: flex-end;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.comments-form button:hover {
+  background: #1565c0;
+}
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.comment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e0e0e0;
+}
+.comment-content {
+  flex: 1;
+}
+.comment-user {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 2px;
+  color: #1976d2;
+}
+.comment-text {
+  font-size: 1rem;
+  color: #222;
+}
+.comment-date {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 2px;
+}
+.comments-error {
+  color: #c00;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  text-align: left;
+}

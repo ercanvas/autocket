@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import './VehicleDetail.css';
 import Comments from '../components/Comments';
+import { Favorite, FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
 
 export default function VehicleDetail() {
   const { id } = useParams();
@@ -227,12 +228,12 @@ export default function VehicleDetail() {
       </div>
       {/* Beğeni ve Yorum Alanı */}
       <div className="vehicle-social-actions">
-        <button className="like-btn" onClick={handleLike} disabled={liked}>
-          {liked ? 'Beğendin' : 'Beğen'}
+        <button className="like-btn" onClick={handleLike} disabled={liked} style={{display:'flex',alignItems:'center',gap:'4px'}}>
+          {liked ? <Favorite color="error"/> : <FavoriteBorder />} Beğen
         </button>
         <span className="like-count">{likeCount} Beğeni</span>
-        <button className="comment-btn" onClick={handleShowComments}>
-          Yorum Yap
+        <button className="comment-btn" onClick={handleShowComments} style={{display:'flex',alignItems:'center',gap:'4px'}}>
+          <ChatBubbleOutline /> Yorum Yap
         </button>
         <span className="comment-count">{commentCount} Yorum</span>
       </div>

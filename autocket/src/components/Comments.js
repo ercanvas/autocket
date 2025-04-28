@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import './Comments.css';
 
 export default function Comments({ vehicleId, onClose }) {
   const [comments, setComments] = useState([]);
@@ -14,9 +15,10 @@ export default function Comments({ vehicleId, onClose }) {
 
   async function fetchComments() {
     setLoading(true);
+    // Kullanıcı adı ve profil resmi için users tablosundan join ile çekiyoruz
     const { data, error } = await supabase
       .from('comments')
-      .select('*')
+      .select('*, users(name, avatar_url)')
       .eq('vehicle_id', vehicleId)
       .order('created_at', { ascending: false });
     if (error) setError(error.message);
@@ -28,9 +30,13 @@ export default function Comments({ vehicleId, onClose }) {
     e.preventDefault();
     setError(null);
     if (!newComment.trim()) return;
+    // Kullanıcı id'si varsa ekle, yoksa anonim
+    let user_id = null;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) user_id = user.id;
     const { error } = await supabase
       .from('comments')
-      .insert({ vehicle_id: vehicleId, text: newComment });
+      .insert({ vehicle_id: vehicleId, text: newComment, user_id });
     if (error) setError(error.message);
     else {
       setNewComment('');
@@ -61,8 +67,16 @@ export default function Comments({ vehicleId, onClose }) {
           {comments.length === 0 && <div>Henüz yorum yok.</div>}
           {comments.map(c => (
             <div key={c.id} className="comment-item">
-              <div className="comment-text">{c.text}</div>
-              <div className="comment-date">{new Date(c.created_at).toLocaleString()}</div>
+              <img
+                className="comment-avatar"
+                src={c.users?.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.users?.name || 'Anonim')}
+                alt="Profil"
+              />
+              <div className="comment-content">
+                <div className="comment-user">{c.users?.name || 'Anonim'}</div>
+                <div className="comment-text">{c.text}</div>
+                <div className="comment-date">{new Date(c.created_at).toLocaleString()}</div>
+              </div>
             </div>
           ))}
         </div>
