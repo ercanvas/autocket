@@ -224,19 +224,29 @@ export default function VehicleDetail() {
           <h2>{vehicle.marka} {vehicle.seri} {vehicle.model}</h2>
           <div className="vehicle-detail-price">{vehicle.fiyat?.toLocaleString()} TL</div>
         </div>
-        {/* Like count with tooltip */}
-        <div style={{position:'relative', marginTop: 8, marginBottom: 8}}>
-          <span
-            className="like-count-underlined"
-            style={{ textDecoration: 'underline', cursor: likeUsers.length > 0 ? 'pointer' : 'default', color: '#ffb347', fontWeight: 600, fontSize: '1.08rem' }}
-            onMouseEnter={() => setShowLikeTooltip(true)}
-            onMouseLeave={() => setShowLikeTooltip(false)}
-          >
-            {likeCount} Beğeni
-          </span>
-          {showLikeTooltip && likeUsers.length > 0 && (
-            <LikeTooltip users={likeUsers.slice(0,5)} extraCount={likeUsers.length > 5 ? likeUsers.length - 5 : 0} />
-          )}
+        {/* Social Actions: Like, Comment */}
+        <div className="vehicle-social-actions">
+          <button className="like-btn" onClick={handleLike} style={{display:'flex',alignItems:'center',gap:'4px'}}>
+            {liked ? <Favorite color="error"/> : <FavoriteBorder />} Beğen
+          </button>
+          {/* Like count under the like button */}
+          <div style={{position:'relative', marginTop: 2, marginBottom: 8, width:'100%'}}>
+            <span
+              className="like-count-underlined"
+              style={{ textDecoration: 'underline', cursor: likeUsers.length > 0 ? 'pointer' : 'default', color: '#ffb347', fontWeight: 600, fontSize: '1.08rem', display:'inline-block' }}
+              onMouseEnter={() => setShowLikeTooltip(true)}
+              onMouseLeave={() => setShowLikeTooltip(false)}
+            >
+              {likeCount} Beğeni
+            </span>
+            {showLikeTooltip && likeUsers.length > 0 && (
+              <LikeTooltip users={likeUsers.slice(0,5)} extraCount={likeUsers.length > 5 ? likeUsers.length - 5 : 0} />
+            )}
+          </div>
+          <button className="comment-btn" onClick={handleShowComments} style={{display:'flex',alignItems:'center',gap:'4px'}}>
+            <ChatBubbleOutline /> Yorum Yap
+          </button>
+          <span className="comment-count">{commentCount} Yorum</span>
         </div>
         {editMode ? (
           <form className="vehicle-edit-form" onSubmit={handleUpdate}>
@@ -276,16 +286,6 @@ export default function VehicleDetail() {
             <div className="vehicle-detail-info-row"><span>Damage:</span><span>{vehicle.agir_hasarli}</span></div>
           </div>
         )}
-      </div>
-      {/* Beğeni ve Yorum Alanı */}
-      <div className="vehicle-social-actions">
-        <button className="like-btn" onClick={handleLike} style={{display:'flex',alignItems:'center',gap:'4px'}}>
-          {liked ? <Favorite color="error"/> : <FavoriteBorder />} Beğen
-        </button>
-        <button className="comment-btn" onClick={handleShowComments} style={{display:'flex',alignItems:'center',gap:'4px'}}>
-          <ChatBubbleOutline /> Yorum Yap
-        </button>
-        <span className="comment-count">{commentCount} Yorum</span>
       </div>
       {showComments && (
         <Comments vehicleId={id} onClose={handleCloseComments} />
