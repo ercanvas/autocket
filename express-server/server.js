@@ -7,7 +7,8 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const flaskApiUrl = process.env.FLASK_API_URL || 'http://localhost:5000';
+// IMPORTANT: Use deployed Flask API in production
+const flaskApiUrl = process.env.FLASK_API_URL || 'https://autocket-flask.onrender.com';
 
 app.use(cors({
   origin: [
