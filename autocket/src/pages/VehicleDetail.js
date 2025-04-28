@@ -158,9 +158,8 @@ export default function VehicleDetail() {
   };
 
   async function handleLike() {
-    if (!currentUser) return alert('Lütfen giriş yapın.');
     if (liked) return;
-    await supabase.from('vehicle_likes').insert({ vehicle_id: id, user_id: currentUser.id });
+    await supabase.from('vehicle_likes').insert({ vehicle_id: id });
     setLikeCount(likeCount + 1);
     setLiked(true);
   }
