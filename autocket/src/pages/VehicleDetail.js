@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import './VehicleDetail.css';
 import Comments from '../components/Comments';
 import { Favorite, FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
+import { getAuth } from 'firebase/auth';
 
 export default function VehicleDetail() {
   const { id } = useParams();
@@ -17,6 +18,7 @@ export default function VehicleDetail() {
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
+  const [firebaseUid, setFirebaseUid] = useState(null);
 
   // Yardımcı: Form anahtarlarını normalize et (Supabase ile birebir uyumlu)
   const normalizeVehicleKeys = (data) => {
@@ -49,6 +51,16 @@ export default function VehicleDetail() {
   }, []);
 
   useEffect(() => {
+    // Firebase UID'yi al
+    try {
+      const auth = getAuth();
+      setFirebaseUid(auth.currentUser ? auth.currentUser.uid : null);
+    } catch (err) {
+      setFirebaseUid(null);
+    }
+  }, []);
+
+  useEffect(() => {
     async function fetchVehicle() {
       const { data, error } = await supabase
         .from('vehicles')
@@ -67,27 +79,29 @@ export default function VehicleDetail() {
       // Likes
       const { data: likesData } = await supabase
         .from('vehicle_likes')
-        .select('id', { count: 'exact' })
+        .select('id')
         .eq('vehicle_id', id);
       setLikeCount(likesData ? likesData.length : 0);
       // User liked?
-      if (currentUser) {
+      if (firebaseUid) {
         const { data: userLike } = await supabase
           .from('vehicle_likes')
-          .select('*')
+          .select('id')
           .eq('vehicle_id', id)
-          .eq('user_id', currentUser?.id);
+          .eq('firebase_uid', firebaseUid);
         setLiked(userLike && userLike.length > 0);
+      } else {
+        setLiked(false);
       }
       // Comments
       const { data: commentsData } = await supabase
         .from('comments')
-        .select('id', { count: 'exact' })
+        .select('id')
         .eq('vehicle_id', id);
       setCommentCount(commentsData ? commentsData.length : 0);
     }
     fetchLikeAndCommentCounts();
-  }, [id, currentUser]);
+  }, [id, firebaseUid]);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this vehicle?')) return;
@@ -159,10 +173,28 @@ export default function VehicleDetail() {
   };
 
   async function handleLike() {
-    if (liked) return;
-    await supabase.from('vehicle_likes').insert({ vehicle_id: id });
-    setLikeCount(likeCount + 1);
-    setLiked(true);
+    // Firebase UID'yi anlık olarak al (her zaman güncel olsun)
+    let currentFirebaseUid = null;
+    try {
+      const auth = getAuth();
+      currentFirebaseUid = auth.currentUser ? auth.currentUser.uid : null;
+    } catch (err) {}
+    if (!currentFirebaseUid) return;
+    if (liked) {
+      // Unlike: beğeniyi kaldır
+      await supabase.from('vehicle_likes')
+        .delete()
+        .eq('vehicle_id', id)
+        .eq('firebase_uid', currentFirebaseUid);
+      setLikeCount(likeCount > 0 ? likeCount - 1 : 0);
+      setLiked(false);
+    } else {
+      // Like: beğeni ekle
+      await supabase.from('vehicle_likes')
+        .insert({ vehicle_id: id, firebase_uid: currentFirebaseUid });
+      setLikeCount(likeCount + 1);
+      setLiked(true);
+    }
   }
 
   function handleShowComments() {
@@ -228,7 +260,7 @@ export default function VehicleDetail() {
       </div>
       {/* Beğeni ve Yorum Alanı */}
       <div className="vehicle-social-actions">
-        <button className="like-btn" onClick={handleLike} disabled={liked} style={{display:'flex',alignItems:'center',gap:'4px'}}>
+        <button className="like-btn" onClick={handleLike} style={{display:'flex',alignItems:'center',gap:'4px'}}>
           {liked ? <Favorite color="error"/> : <FavoriteBorder />} Beğen
         </button>
         <span className="like-count">{likeCount} Beğeni</span>
