@@ -7,7 +7,14 @@ const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors({ origin: 'http://localhost:3001' }));
+const flaskApiUrl = process.env.FLASK_API_URL || 'http://localhost:5000';
+
+app.use(cors({
+  origin: [
+    'http://localhost:3001',
+    'https://autocket.vercel.app'
+  ]
+}));
 app.use(bodyParser.json());
 
 let lastPrice = null;
@@ -23,7 +30,7 @@ app.post('/tahmin', async (req, res) => {
         for (const k of allowed) {
             carData[k] = req.body[k];
         }
-        const response = await axios.post('http://localhost:5000/predict', carData);
+        const response = await axios.post(`${flaskApiUrl}/predict`, carData);
         lastPrice = response.data.fiyat;
         res.json({ fiyat: lastPrice });
     } catch (error) {
@@ -69,7 +76,7 @@ app.get('/tahmin/:marka/:seri/:model/:yil/:yakit/:vites/:arac_durumu/:km/:kasa_t
         agir_hasarlı: decodeParam(params.agir_hasarlı, valueMaps.agir_hasarlı)
     };
     try {
-        const response = await axios.post('http://localhost:5000/predict', carData);
+        const response = await axios.post(`${flaskApiUrl}/predict`, carData);
         res.json({ fiyat: response.data.fiyat });
     } catch (error) {
         res.status(500).json({ error: error.response?.data?.error || error.message });
