@@ -1,0 +1,32 @@
+.like-tooltip {
+  background: rgba(35,41,70,0.97);
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.98rem;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  z-index: 99;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  min-width: 180px;
+  max-width: 270px;
+  pointer-events: none;
+  opacity: 0.98;
+  transition: opacity 0.13s;
+}
+.like-tooltip-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.like-tooltip-name {
+  font-weight: 600;
+  color: #ffb347;
+}
+.like-tooltip-extra {
+  font-weight: 400;
+  color: #eee;
+  margin-left: 4px;
+}

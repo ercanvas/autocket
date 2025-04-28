@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
 import './Vehicles.css';
 
 export default function Vehicles() {
@@ -9,8 +10,34 @@ export default function Vehicles() {
 
   useEffect(() => {
     async function fetchVehicles() {
-      const { data, error } = await supabase.from('vehicles').select('*').order('id', { ascending: false });
-      if (!error) setVehicles(data || []);
+      // Fetch vehicles
+      const { data: vehiclesData, error } = await supabase.from('vehicles').select('*').order('id', { ascending: false });
+      if (!vehiclesData || error) {
+        setVehicles([]);
+        setLoading(false);
+        return;
+      }
+      // For each vehicle, fetch like and comment counts
+      const vehicleIds = vehiclesData.map(v => v.id);
+      let likeCounts = [];
+      let commentCounts = [];
+      if (vehicleIds.length > 0) {
+        const { data: likes } = await supabase
+          .from('vehicle_likes')
+          .select('vehicle_id');
+        const { data: comments } = await supabase
+          .from('comments')
+          .select('vehicle_id');
+        likeCounts = likes ? vehicleIds.map(id => likes.filter(l => l.vehicle_id === id).length) : [];
+        commentCounts = comments ? vehicleIds.map(id => comments.filter(c => c.vehicle_id === id).length) : [];
+      }
+      // Attach counts to vehicles
+      const vehiclesWithCounts = vehiclesData.map((v, i) => ({
+        ...v,
+        like_count: likeCounts[i] || 0,
+        comment_count: commentCounts[i] || 0
+      }));
+      setVehicles(vehiclesWithCounts);
       setLoading(false);
     }
     fetchVehicles();
@@ -32,6 +59,10 @@ export default function Vehicles() {
                 <div><b>Price:</b> {v.fiyat} TL</div>
                 <div><b>Year:</b> {v.yil}</div>
                 <div><b>Body Type:</b> {v.kasa_tipi}</div>
+                <div className="vehicle-card-social-row" style={{display:'flex',alignItems:'center',gap:'14px',marginTop:'6px'}}>
+                  <span style={{display:'flex',alignItems:'center',gap:'4px'}}><FavoriteBorder style={{fontSize:18,color:'#ffb347'}}/> {v.like_count || 0}</span>
+                  <span style={{display:'flex',alignItems:'center',gap:'4px'}}><ChatBubbleOutline style={{fontSize:18,color:'#b7c3e6'}}/> {v.comment_count || 0}</span>
+                </div>
               </div>
             </Link>
           ))

@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import './VehicleDetail.css';
 import Comments from '../components/Comments';
+import LikeTooltip from '../components/LikeTooltip';
+import './LikeTooltip.css';
 import { Favorite, FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
 import { getAuth } from 'firebase/auth';
 
@@ -19,6 +21,8 @@ export default function VehicleDetail() {
   const [liked, setLiked] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
   const [firebaseUid, setFirebaseUid] = useState(null);
+  const [likeUsers, setLikeUsers] = useState([]);
+  const [showLikeTooltip, setShowLikeTooltip] = useState(false);
 
   // Yardımcı: Form anahtarlarını normalize et (Supabase ile birebir uyumlu)
   const normalizeVehicleKeys = (data) => {
@@ -76,12 +80,13 @@ export default function VehicleDetail() {
 
   useEffect(() => {
     async function fetchLikeAndCommentCounts() {
-      // Likes
+      // Likes with user info
       const { data: likesData } = await supabase
         .from('vehicle_likes')
-        .select('id')
+        .select('*, users(name, firebase_uid)')
         .eq('vehicle_id', id);
       setLikeCount(likesData ? likesData.length : 0);
+      setLikeUsers(likesData ? likesData.map(l => l.users || { name: 'Anonim', firebase_uid: l.firebase_uid }) : []);
       // User liked?
       if (firebaseUid) {
         const { data: userLike } = await supabase
@@ -219,6 +224,20 @@ export default function VehicleDetail() {
           <h2>{vehicle.marka} {vehicle.seri} {vehicle.model}</h2>
           <div className="vehicle-detail-price">{vehicle.fiyat?.toLocaleString()} TL</div>
         </div>
+        {/* Like count with tooltip */}
+        <div style={{position:'relative', marginTop: 8, marginBottom: 8}}>
+          <span
+            className="like-count-underlined"
+            style={{ textDecoration: 'underline', cursor: likeUsers.length > 0 ? 'pointer' : 'default', color: '#ffb347', fontWeight: 600, fontSize: '1.08rem' }}
+            onMouseEnter={() => setShowLikeTooltip(true)}
+            onMouseLeave={() => setShowLikeTooltip(false)}
+          >
+            {likeCount} Beğeni
+          </span>
+          {showLikeTooltip && likeUsers.length > 0 && (
+            <LikeTooltip users={likeUsers.slice(0,5)} extraCount={likeUsers.length > 5 ? likeUsers.length - 5 : 0} />
+          )}
+        </div>
         {editMode ? (
           <form className="vehicle-edit-form" onSubmit={handleUpdate}>
             <input name="marka" value={form.marka || ''} onChange={handleChange} required />
@@ -263,7 +282,6 @@ export default function VehicleDetail() {
         <button className="like-btn" onClick={handleLike} style={{display:'flex',alignItems:'center',gap:'4px'}}>
           {liked ? <Favorite color="error"/> : <FavoriteBorder />} Beğen
         </button>
-        <span className="like-count">{likeCount} Beğeni</span>
         <button className="comment-btn" onClick={handleShowComments} style={{display:'flex',alignItems:'center',gap:'4px'}}>
           <ChatBubbleOutline /> Yorum Yap
         </button>
