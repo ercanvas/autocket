@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
 import './Vehicles.css';
+import { convertPrice } from '../utils/currency';
 
-export default function Vehicles() {
+export default function Vehicles({ currency, setCurrency, rates }) {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,11 +53,11 @@ export default function Vehicles() {
           <div className="vehicles-empty">No vehicles found.</div>
         ) : (
           vehicles.map((v, i) => (
-            <Link to={`/vehicles/${v.id}`} key={v.id} className="vehicle-card-gradient">
+            <Link to={`/vehicles/${v.id}`} className="vehicle-card-gradient" key={v.id}>
               <img src={v.image_url || v.resim_url || 'https://via.placeholder.com/120x80?text=Vehicle'} alt="Vehicle" />
               <div className="vehicle-title">{v.marka} {v.seri} {v.model}</div>
               <div className="vehicle-table">
-                <div><b>Price:</b> {v.fiyat} TL</div>
+                <div><b>Price:</b> {v.fiyat ? `${convertPrice(Number(v.fiyat), 'TRY', currency, rates).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${currency}` : 'Not Estimated'}</div>
                 <div><b>Year:</b> {v.yil}</div>
                 <div><b>Body Type:</b> {v.kasa_tipi}</div>
                 <div className="vehicle-card-social-row" style={{display:'flex',alignItems:'center',gap:'14px',marginTop:'6px'}}>

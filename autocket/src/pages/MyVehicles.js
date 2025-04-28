@@ -3,8 +3,9 @@ import { auth } from '../lib/firebase';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import './MyVehicles.css';
+import { convertPrice } from '../utils/currency';
 
-export default function MyVehicles() {
+export default function MyVehicles({ currency, setCurrency, rates }) {
   const [user, setUser] = useState(null);
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ export default function MyVehicles() {
           .eq('user_id', fbUser.uid)
           .order('created_at', { ascending: false });
         setVehicles(data || []);
-        if (error) setError(error.message);
+        setError(error ? error.message : null);
       } else {
         setVehicles([]);
       }
@@ -50,7 +51,7 @@ export default function MyVehicles() {
               <div className="vehicle-card-info">
                 <div><b>{vehicle.marka} {vehicle.model}</b></div>
                 <div>Year: {vehicle.yil}</div>
-                <div>Price: {vehicle.fiyat ? vehicle.fiyat + ' ₺' : 'Not Estimated'}</div>
+                <div>Price: {vehicle.fiyat ? `${convertPrice(Number(vehicle.fiyat), 'TRY', currency, rates).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${currency}` : 'Not Estimated'}</div>
               </div>
             </div>
           ))}

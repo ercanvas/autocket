@@ -6,8 +6,9 @@ import { PersonIcon, EmailIcon, CalendarMonthIcon, DirectionsCarIcon, FavoriteIc
 import ProfileBanner from './ProfileBanner';
 import './ProfileBanner.css';
 import './Profile.css';
+import { convertPrice } from '../utils/currency';
 
-export default function Profile() {
+export default function Profile({ currency, setCurrency, rates }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -134,7 +135,7 @@ export default function Profile() {
 
   // Format joined date from profile.created_at ("2025-04-27T18:10:59.000Z") to "Apr 2025"
   let joinedStr = '';
-  if (profile.created_at) {
+  if (profile && profile.created_at) {
     const d = new Date(profile.created_at);
     joinedStr = d.toLocaleString('en-US', { month: 'short', year: 'numeric' });
   }
@@ -144,7 +145,7 @@ export default function Profile() {
       <ProfileBanner bannerUrl={bannerUrl} onBannerChange={handleBannerChange} uploading={bannerUploading} />
       <div className="profile-main-card" style={{marginTop:-60}}>
         <div className="profile-header-row">
-          <img src={profile.avatar_url || user.photoURL || 'https://via.placeholder.com/120x120?text=Profile'} alt="avatar" className="profile-avatar" />
+          <img src={profile && profile.avatar_url ? profile.avatar_url : 'https://via.placeholder.com/120x120?text=Avatar'} alt="Avatar" className="profile-avatar" />
         </div>
         <div className="profile-header-row" style={{justifyContent:'flex-start', gap:32, marginTop:-40}}>
           <div style={{minWidth:300}}>
@@ -168,6 +169,16 @@ export default function Profile() {
           <h3 style={{color:'#fff'}}>About</h3>
           <div style={{background:'#444',color:'#fff',borderRadius:8,padding:'24px 32px',marginTop:12,minHeight:80}}>
             {profile.about || <span style={{color:'#bbb'}}>No info provided.</span>}
+          </div>
+        </div>
+        <div className="profile-info-row">
+          <div className="profile-info-label"><DirectionsCarIcon /> Total Vehicles</div>
+          <div className="profile-info-value">{profile && profile.vehicle_count ? profile.vehicle_count : 0}</div>
+        </div>
+        <div className="profile-info-row">
+          <div className="profile-info-label"><FavoriteIcon /> Favorite Vehicle Value</div>
+          <div className="profile-info-value">
+            {profile && profile.favorite_vehicle_value ? `${convertPrice(Number(profile.favorite_vehicle_value), 'TRY', currency, rates).toLocaleString(undefined, { maximumFractionDigits: 0 })} ${currency}` : 'N/A'}
           </div>
         </div>
         {editMode && (
