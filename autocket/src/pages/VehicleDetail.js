@@ -297,6 +297,10 @@ export default function VehicleDetail() {
             <ChatBubbleOutline /> Comment
           </button>
           <span className="comment-count">{commentCount} Comments</span>
+          <div style={{marginTop:16, display:'flex', gap:'12px', justifyContent:'flex-end'}}>
+            <button className="edit-btn" onClick={handleEdit}>Güncelle</button>
+            <button className="delete-btn" onClick={handleDelete}>Sil</button>
+          </div>
         </div>
         {editMode ? (
           <form className="vehicle-edit-form" onSubmit={handleUpdate}>
