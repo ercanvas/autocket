@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import './VehicleDetail.css';
+import Comments from '../components/Comments';
 
 export default function VehicleDetail() {
   const { id } = useParams();
@@ -11,6 +12,10 @@ export default function VehicleDetail() {
   const [form, setForm] = useState({});
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showComments, setShowComments] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
 
   // Yardımcı: Form anahtarlarını normalize et (Supabase ile birebir uyumlu)
   const normalizeVehicleKeys = (data) => {
@@ -55,6 +60,33 @@ export default function VehicleDetail() {
     }
     fetchVehicle();
   }, [id]);
+
+  useEffect(() => {
+    async function fetchLikeAndCommentCounts() {
+      // Likes
+      const { data: likesData } = await supabase
+        .from('vehicle_likes')
+        .select('id', { count: 'exact' })
+        .eq('vehicle_id', id);
+      setLikeCount(likesData ? likesData.length : 0);
+      // User liked?
+      if (currentUser) {
+        const { data: userLike } = await supabase
+          .from('vehicle_likes')
+          .select('*')
+          .eq('vehicle_id', id)
+          .eq('user_id', currentUser?.id);
+        setLiked(userLike && userLike.length > 0);
+      }
+      // Comments
+      const { data: commentsData } = await supabase
+        .from('comments')
+        .select('id', { count: 'exact' })
+        .eq('vehicle_id', id);
+      setCommentCount(commentsData ? commentsData.length : 0);
+    }
+    fetchLikeAndCommentCounts();
+  }, [id, currentUser]);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this vehicle?')) return;
@@ -125,6 +157,22 @@ export default function VehicleDetail() {
     }
   };
 
+  async function handleLike() {
+    if (!currentUser) return alert('Lütfen giriş yapın.');
+    if (liked) return;
+    await supabase.from('vehicle_likes').insert({ vehicle_id: id, user_id: currentUser.id });
+    setLikeCount(likeCount + 1);
+    setLiked(true);
+  }
+
+  function handleShowComments() {
+    setShowComments(true);
+  }
+
+  function handleCloseComments() {
+    setShowComments(false);
+  }
+
   if (loading) return <div className="vehicle-bg-gradient"><div className="vehicle-detail-loading">Loading...</div></div>;
   if (!vehicle || vehicle.error) return <div className="vehicle-bg-gradient"><div className="vehicle-detail-error">Vehicle not found.</div></div>;
 
@@ -178,6 +226,20 @@ export default function VehicleDetail() {
           </div>
         )}
       </div>
+      {/* Beğeni ve Yorum Alanı */}
+      <div className="vehicle-social-actions">
+        <button className="like-btn" onClick={handleLike} disabled={liked}>
+          {liked ? 'Beğendin' : 'Beğen'}
+        </button>
+        <span className="like-count">{likeCount} Beğeni</span>
+        <button className="comment-btn" onClick={handleShowComments}>
+          Yorum Yap
+        </button>
+        <span className="comment-count">{commentCount} Yorum</span>
+      </div>
+      {showComments && (
+        <Comments vehicleId={id} onClose={handleCloseComments} />
+      )}
       {currentUser && (
         <div className="detail-actions">
           <button className="edit-btn" onClick={handleEdit}>Edit</button>
