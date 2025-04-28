@@ -7,6 +7,7 @@ import LikeTooltip from '../components/LikeTooltip';
 import '../components/LikeTooltip.css';
 import { Favorite, FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
 import { getAuth } from 'firebase/auth';
+import { convertPrice } from '../utils/currency';
 
 export default function VehicleDetail() {
   const { id } = useParams();
@@ -23,6 +24,8 @@ export default function VehicleDetail() {
   const [firebaseUid, setFirebaseUid] = useState(null);
   const [likeUsers, setLikeUsers] = useState([]);
   const [showLikeTooltip, setShowLikeTooltip] = useState(false);
+  const [currency, setCurrency] = React.useState(localStorage.getItem('currency') || 'TRY');
+  const [rates, setRates] = React.useState({});
 
   // Yardımcı: Form anahtarlarını normalize et (Supabase ile birebir uyumlu)
   const normalizeVehicleKeys = (data) => {
@@ -107,6 +110,18 @@ export default function VehicleDetail() {
     }
     fetchLikeAndCommentCounts();
   }, [id, firebaseUid]);
+
+  useEffect(() => {
+    // Listen for currency changes from landing selector
+    const onStorage = (e) => {
+      if (e.key === 'currency') setCurrency(e.newValue);
+      if (e.key === 'rates') setRates(JSON.parse(e.newValue || '{}'));
+    };
+    window.addEventListener('storage', onStorage);
+    setCurrency(localStorage.getItem('currency') || 'TRY');
+    setRates(JSON.parse(localStorage.getItem('rates') || '{}'));
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this vehicle?')) return;
@@ -222,12 +237,15 @@ export default function VehicleDetail() {
         </div>
         <div className="vehicle-detail-title vehicle-detail-title-left vehicle-detail-title-large-only">
           <h2>{vehicle.marka} {vehicle.seri} {vehicle.model}</h2>
-          <div className="vehicle-detail-price">{vehicle.fiyat?.toLocaleString()} TL</div>
+          <div className="vehicle-detail-price">
+            {convertPrice(vehicle.fiyat, 'TRY', currency, rates).toLocaleString(undefined, {maximumFractionDigits: 0})}
+            &nbsp;{currency === 'TRY' ? '₺' : currency}
+          </div>
         </div>
         {/* Social Actions: Like, Comment */}
         <div className="vehicle-social-actions">
           <button className="like-btn" onClick={handleLike} style={{display:'flex',alignItems:'center',gap:'4px'}}>
-            {liked ? <Favorite color="error"/> : <FavoriteBorder />} Beğen
+            {liked ? <Favorite color="error"/> : <FavoriteBorder />} Like
           </button>
           {/* Like count under the like button */}
           <div style={{position:'relative', marginTop: 2, marginBottom: 8, width:'100%'}}>
@@ -237,16 +255,16 @@ export default function VehicleDetail() {
               onMouseEnter={() => setShowLikeTooltip(true)}
               onMouseLeave={() => setShowLikeTooltip(false)}
             >
-              {likeCount} Beğeni
+              {likeCount} Likes
             </span>
             {showLikeTooltip && likeUsers.length > 0 && (
               <LikeTooltip users={likeUsers.slice(0,5)} extraCount={likeUsers.length > 5 ? likeUsers.length - 5 : 0} />
             )}
           </div>
           <button className="comment-btn" onClick={handleShowComments} style={{display:'flex',alignItems:'center',gap:'4px'}}>
-            <ChatBubbleOutline /> Yorum Yap
+            <ChatBubbleOutline /> Comment
           </button>
-          <span className="comment-count">{commentCount} Yorum</span>
+          <span className="comment-count">{commentCount} Comments</span>
         </div>
         {editMode ? (
           <form className="vehicle-edit-form" onSubmit={handleUpdate}>

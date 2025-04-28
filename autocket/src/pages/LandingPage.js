@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
 import './LandingPage.css';
+import CurrencySelector from '../components/CurrencySelector';
+import { fetchRates } from '../utils/currency';
 
 // 3D model component with auto-rotate until user interacts
 function CarModel({ stopRotation }) {
@@ -19,12 +21,18 @@ function CarModel({ stopRotation }) {
 export default function LandingPage() {
   const [stopRotation, setStopRotation] = useState(false);
   const controlsRef = useRef();
+  const [currency, setCurrency] = useState('TRY');
+  const [rates, setRates] = useState({});
 
   // Mouse/touch interaction disables auto-rotation
   useEffect(() => {
     const handlePointerDown = () => setStopRotation(true);
     window.addEventListener('pointerdown', handlePointerDown);
     return () => window.removeEventListener('pointerdown', handlePointerDown);
+  }, []);
+
+  useEffect(() => {
+    fetchRates().then(setRates).catch(() => {});
   }, []);
 
   return (
@@ -50,6 +58,7 @@ export default function LandingPage() {
           <button type="submit" disabled>SEARCH</button>
         </form>
       </div>
+      <CurrencySelector currency={currency} setCurrency={setCurrency} rates={rates} />
     </div>
   );
 }

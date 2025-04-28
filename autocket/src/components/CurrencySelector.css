@@ -1,0 +1,25 @@
+.currency-selector-fixed {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 9999;
+  background: rgba(35,41,70,0.98);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+.currency-select {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #232946;
+  background: #ffb347;
+  border: none;
+  border-radius: 7px;
+  padding: 6px 18px;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.09);
+  margin-left: 0;
+}
