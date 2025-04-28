@@ -232,6 +232,25 @@ export default function VehicleDetail() {
     setShowComments(false);
   }
 
+  // Helper to extract numeric value and currency code from price string
+  function parsePrice(priceStr) {
+    // Example: "778.681 JPY" or "1,234,567 EUR"
+    if (!priceStr) return { amount: 0, code: 'TRY' };
+    const match = priceStr.replace(/\u00A0/g, ' ').match(/([\d.,]+)\s*([A-Z]{3})/);
+    if (!match) return { amount: Number(priceStr.replace(/[^\d.,]/g, '').replace(',', '')), code: currency };
+    // Remove thousands separator and parse float
+    let num = match[1].replace(/,/g, '').replace(/\./g, '.');
+    return { amount: parseFloat(num), code: match[2] };
+  }
+
+  // Render price in selected currency, integer only
+  function renderConvertedPrice(rawPrice) {
+    const { amount, code } = parsePrice(rawPrice);
+    if (!rates || !rates[code] || !rates[currency]) return rawPrice;
+    const converted = convertPrice(amount, code, currency, rates);
+    return `${Math.floor(converted).toLocaleString()} ${currency}`;
+  }
+
   if (loading) return <div className="vehicle-bg-gradient"><div className="vehicle-detail-loading">Loading...</div></div>;
   if (!vehicle || vehicle.error) return <div className="vehicle-bg-gradient"><div className="vehicle-detail-error">Vehicle not found.</div></div>;
 
@@ -245,8 +264,7 @@ export default function VehicleDetail() {
         <div className="vehicle-detail-title vehicle-detail-title-left vehicle-detail-title-large-only">
           <h2>{vehicle.marka} {vehicle.seri} {vehicle.model}</h2>
           <div className="vehicle-detail-price">
-            {convertPrice(vehicle.fiyat, 'TRY', currency, rates).toLocaleString(undefined, {maximumFractionDigits: 0})}
-            &nbsp;{currency === 'TRY' ? '₺' : currency}
+            {renderConvertedPrice(vehicle.fiyat)}
           </div>
         </div>
         {/* Social Actions: Like, Comment */}
