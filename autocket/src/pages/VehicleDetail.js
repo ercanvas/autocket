@@ -112,15 +112,22 @@ export default function VehicleDetail() {
   }, [id, firebaseUid]);
 
   useEffect(() => {
-    // Listen for currency changes from landing selector
-    const onStorage = (e) => {
-      if (e.key === 'currency') setCurrency(e.newValue);
-      if (e.key === 'rates') setRates(JSON.parse(e.newValue || '{}'));
+    function syncCurrencyFromStorage() {
+      setCurrency(localStorage.getItem('currency') || 'TRY');
+      try {
+        setRates(JSON.parse(localStorage.getItem('rates') || '{}'));
+      } catch {
+        setRates({});
+      }
+    }
+    window.addEventListener('storage', syncCurrencyFromStorage);
+    // Also poll every 1s in case of SPA navigation (no storage event)
+    const interval = setInterval(syncCurrencyFromStorage, 1000);
+    syncCurrencyFromStorage();
+    return () => {
+      window.removeEventListener('storage', syncCurrencyFromStorage);
+      clearInterval(interval);
     };
-    window.addEventListener('storage', onStorage);
-    setCurrency(localStorage.getItem('currency') || 'TRY');
-    setRates(JSON.parse(localStorage.getItem('rates') || '{}'));
-    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   const handleDelete = async () => {
