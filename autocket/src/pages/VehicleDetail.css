@@ -162,6 +162,7 @@
   background: rgba(24,28,43,0.96);
   box-shadow: 0 8px 40px #23294633;
   position: relative;
+  top: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
