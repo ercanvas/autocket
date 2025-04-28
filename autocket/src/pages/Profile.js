@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { auth } from '../lib/firebase';
 import { supabase } from '../lib/supabase';
 import { useNavigate, Link } from 'react-router-dom';
-import './Profile.css';
+import { PersonIcon, EmailIcon, CalendarMonthIcon, DirectionsCarIcon, FavoriteIcon, PhoneIcon, EditIcon, LogoutIcon, DeleteIcon, ListAltIcon } from './muiIcons';
+import ProfileBanner from './ProfileBanner';
+import './ProfileBanner.css';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -105,43 +107,46 @@ export default function Profile() {
   if (!user) return <div className="profile-container">You are not logged in. <button onClick={() => navigate('/auth')}>Log in</button></div>;
   if (!profile) return <div className="profile-container">Profile not found.</div>;
 
+  // Format joined date from profile.created_at ("2025-04-27T18:10:59.000Z") to "Apr 2025"
+  let joinedStr = '';
+  if (profile.created_at) {
+    const d = new Date(profile.created_at);
+    joinedStr = d.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+  }
+
   return (
-    <div className="profile-bg-gradient">
-      <div className="profile-main-card">
+    <div style={{background:'#23253a', minHeight:'100vh'}}>
+      <ProfileBanner />
+      <div className="profile-main-card" style={{marginTop:-60}}>
         <div className="profile-header-row">
-          <img src={profile.avatar_url || user.photoURL || 'https://via.placeholder.com/96x96?text=Profile'} alt="avatar" className="profile-avatar" />
-          <div className="profile-header-info">
-            <h2>{profile.name || ''}</h2>
-            <div className="profile-email">{profile.email || ''}</div>
-            <div className="profile-joined">Joined: {profile.join_date || ''}</div>
+          <img src={profile.avatar_url || user.photoURL || 'https://via.placeholder.com/120x120?text=Profile'} alt="avatar" className="profile-avatar" />
+        </div>
+        <div className="profile-header-row" style={{justifyContent:'flex-start', gap:32, marginTop:-40}}>
+          <div style={{minWidth:300}}>
+            <h2 style={{display:'flex',alignItems:'center',gap:8}}><PersonIcon style={{fontSize:28}}/>{profile.name || ''}</h2>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}><EmailIcon style={{fontSize:20}}/>{profile.email || ''}</div>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}><CalendarMonthIcon style={{fontSize:20}}/>Joined: {joinedStr}</div>
+          </div>
+          <div style={{display:'flex',gap:16,flexWrap:'wrap'}}>
+            <button className="profile-btn" style={{background:'#ff6600'}}><ListAltIcon style={{marginRight:6}}/>Listings</button>
+            <button className="profile-btn" style={{background:'#ff6600'}}><FavoriteIcon style={{marginRight:6}}/>Favorites</button>
+            <button className="profile-btn" style={{background:'#ff6600'}}><PhoneIcon style={{marginRight:6}}/>Phone number</button>
+            <button className="profile-btn" style={{background:'#ff6600'}} onClick={handleLogout}><LogoutIcon style={{marginRight:6}}/>Log out</button>
+            <button className="profile-btn" style={{background:'#ff2222',color:'#fff'}} onClick={handleDeleteAccount}><DeleteIcon style={{marginRight:6}}/>Delete account</button>
           </div>
         </div>
-        <div className="profile-stats-row">
-          <div className="profile-stat">
-            <span className="profile-stat-num">{profile.listings || 0}</span>
-            <span className="profile-stat-label">Listings</span>
-          </div>
-          <div className="profile-stat">
-            <span className="profile-stat-num">{profile.favorites || 0}</span>
-            <span className="profile-stat-label">Favorites</span>
-          </div>
-          <div className="profile-stat">
-            <span className="profile-stat-num">{profile.phone || ''}</span>
-            <span className="profile-stat-label">Phone</span>
-          </div>
+        <div style={{display:'flex',gap:24,marginTop:28}}>
+          <button className="profile-btn" style={{background:'#ff6600',width:160}} onClick={()=>setEditMode(e=>!e)}><EditIcon style={{marginRight:6}}/>{editMode ? 'Cancel' : 'Edit Profile'}</button>
+          <Link to="/my-vehicles" className="profile-btn" style={{background:'#ff6600',width:160,display:'flex',alignItems:'center',justifyContent:'center',gap:6}}><DirectionsCarIcon/>My Vehicles</Link>
         </div>
-        <div className="profile-about">
-          <h3>About</h3>
-          <p>{profile.about || ''}</p>
-        </div>
-        <div className="profile-edit-toggle-row">
-          <button className="profile-edit-toggle-btn" onClick={() => setEditMode(e => !e)}>
-            {editMode ? 'Cancel' : 'Edit Profile'}
-          </button>
-          <button className="profile-logout-btn" onClick={handleLogout}>Logout</button>
+        <div style={{marginTop:32}}>
+          <h3 style={{color:'#fff'}}>About</h3>
+          <div style={{background:'#444',color:'#fff',borderRadius:8,padding:'24px 32px',marginTop:12,minHeight:80}}>
+            {profile.about || <span style={{color:'#bbb'}}>No info provided.</span>}
+          </div>
         </div>
         {editMode && (
-          <form className="profile-form" onSubmit={handleSave}>
+          <form className="profile-form" onSubmit={handleSave} style={{marginTop:32}}>
             <input type="file" accept="image/*" onChange={handleAvatarChange} />
             <input name="name" placeholder="Full Name" value={profile.name || ''} onChange={handleChange} required />
             <input name="email" placeholder="Email" value={profile.email || ''} onChange={handleChange} required />
@@ -150,8 +155,6 @@ export default function Profile() {
             <button className="profile-save-btn" type="submit" disabled={loading || avatarUploading}>Save</button>
           </form>
         )}
-        <Link to="/my-vehicles" className="profile-my-vehicles-btn">My Vehicles</Link>
-        <button className="profile-delete-btn" onClick={handleDeleteAccount} disabled={loading} style={{ backgroundColor: 'red', color: 'white' }}>Delete Account</button>
         {error && <div className="error">{error}</div>}
         {success && <div className="success">{success}</div>}
       </div>
