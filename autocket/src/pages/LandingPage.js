@@ -44,7 +44,7 @@ export default function LandingPage() {
           </Canvas>
         </div>
         <form className="landing-full-search-form" onSubmit={e => e.preventDefault()}>
-          <select disabled><option>Make</option></select>
+          <select disabled><option>Brand</option></select>
           <select disabled><option>Model</option></select>
           <input type="number" placeholder="Max Price" disabled />
           <button type="submit" disabled>SEARCH</button>

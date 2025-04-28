@@ -14,7 +14,7 @@ export default function Header() {
       <nav className="header-nav">
         <div className="header-left">
           <Link to="/" className="header-logo">autocket</Link>
-          <Link to="/add-vehicle" className="header-link">Add Car</Link>
+          <Link to="/add-vehicle" className="header-link">Add Vehicle</Link>
         </div>
         <div className="header-center">
           {/* Ortada başlık sadece landingde */}
