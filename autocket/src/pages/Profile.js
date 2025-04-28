@@ -16,6 +16,8 @@ export default function Profile() {
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [bannerUploading, setBannerUploading] = useState(false);
+  const [bannerUrl, setBannerUrl] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,9 +33,11 @@ export default function Profile() {
           .eq('firebase_uid', fbUser.uid)
           .single();
         setProfile(data);
+        if (data && data.banner_url) setBannerUrl(data.banner_url);
         if (error) setError(error.message);
       } else {
         setProfile(null);
+        setBannerUrl(null);
       }
       setLoading(false);
     });
@@ -104,6 +108,26 @@ export default function Profile() {
     }
   };
 
+  const handleBannerChange = async (e) => {
+    if (!user || !e.target.files || !e.target.files[0]) return;
+    setBannerUploading(true);
+    setError(null);
+    try {
+      const file = e.target.files[0];
+      const ext = file.name.split('.').pop();
+      const fileName = `${user.uid}_banner.${ext}`;
+      const { error: uploadError } = await supabase.storage.from('profile-banners').upload(fileName, file, { upsert: true });
+      if (uploadError) throw uploadError;
+      const { data: publicUrlData } = supabase.storage.from('profile-banners').getPublicUrl(fileName);
+      setBannerUrl(publicUrlData.publicUrl);
+      // Save to user profile
+      await supabase.from('users').update({ banner_url: publicUrlData.publicUrl }).eq('firebase_uid', user.uid);
+    } catch (err) {
+      setError(err.message || 'Failed to upload banner.');
+    }
+    setBannerUploading(false);
+  };
+
   if (loading) return <div className="profile-container">Loading...</div>;
   if (!user) return <div className="profile-container">You are not logged in. <button onClick={() => navigate('/auth')}>Log in</button></div>;
   if (!profile) return <div className="profile-container">Profile not found.</div>;
@@ -117,7 +141,7 @@ export default function Profile() {
 
   return (
     <div style={{background:'#23253a', minHeight:'100vh'}}>
-      <ProfileBanner />
+      <ProfileBanner bannerUrl={bannerUrl} onBannerChange={handleBannerChange} uploading={bannerUploading} />
       <div className="profile-main-card" style={{marginTop:-60}}>
         <div className="profile-header-row">
           <img src={profile.avatar_url || user.photoURL || 'https://via.placeholder.com/120x120?text=Profile'} alt="avatar" className="profile-avatar" />
