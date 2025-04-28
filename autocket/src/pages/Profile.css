@@ -67,7 +67,7 @@
 .profile-avatar {
   position: absolute;
   left: 50%;
-  top: -60px;
+  top: -10px;
   transform: translateX(-50%);
   z-index: 3;
   border: 5px solid #fff;
