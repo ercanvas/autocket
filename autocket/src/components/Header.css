@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+.main-header {
+  width: 100vw;
+  min-width: 0;
+  background: transparent;
+  box-shadow: 0 2px 18px #181c2b22;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+}
+
+.header-nav {
+  width: 100vw;
+  max-width: 100vw;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7em 2.5vw;
+  box-sizing: border-box;
+}
+
+.header-left, .header-center, .header-right {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.header-left {
+  gap: 1.3em;
+}
+.header-logo {
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #ff7f32;
+  letter-spacing: -1px;
+  text-decoration: none;
+  margin-right: 2.2em;
+  transition: color 0.18s;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+.header-logo:hover {
+  color: #ff9f4d;
+}
+.header-link {
+  color: #e8eaf6;
+  font-size: 1.13rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.6em 1.1em;
+  border-radius: 8px;
+  transition: background 0.18s;
+}
+.header-link:hover {
+  background: #232946;
+}
+.header-center {
+  flex: 1 1 0;
+  justify-content: center;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+}
+.header-title {
+  color: #f3f6fa;
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 12px #0d101e99;
+  text-align: center;
+}
+.header-right {
+  gap: 1.2em;
+}
+.header-search {
+  display: flex;
+  align-items: center;
+  background: #232946cc;
+  border-radius: 8px;
+  padding: 0.2em 0.7em;
+  margin-right: 0.7em;
+}
+.header-search input {
+  background: transparent;
+  border: none;
+  color: #e8eaf6;
+  font-size: 1.05rem;
+  font-family: inherit;
+  padding: 0.4em 0.7em;
+  outline: none;
+}
+.header-search button {
+  background: none;
+  border: none;
+  color: #ff7f32;
+  font-size: 1.12rem;
+  cursor: pointer;
+  padding: 0 0.3em;
+}
+.header-btn {
+  background: #ff7f32;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.62em 1.5em;
+  font-size: 1.13rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.2s;
+  cursor: pointer;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+}
+.header-btn:hover {
+  background: #ff9f4d;
+}
+
+@media (max-width: 700px) {
+  .header-title {
+    font-size: 1.1rem;
+  }
+  .header-nav {
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 0.5em 1vw;
+  }
+  .header-left, .header-right {
+    gap: 0.7em;
+  }
+}

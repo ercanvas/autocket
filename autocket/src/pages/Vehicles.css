@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+.vehicles-bg {
+  width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #181c2b 0%, #232946 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  box-sizing: border-box;
+}
+.vehicles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
+  width: 100vw;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 18px 32px 18px;
+  justify-items: center;
+  overflow: visible !important;
+}
+.vehicle-card-gradient {
+  width: 260px;
+  min-height: 240px;
+  background: linear-gradient(135deg, #ff7f32 0%, #232946 100%);
+  background-blend-mode: overlay;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+  padding: 22px 18px 16px 18px;
+  text-align: center;
+  text-decoration: none;
+  color: #f3f6fa;
+  transition: transform 0.13s, box-shadow 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  border-radius: 0 !important;
+  border: none;
+  position: relative;
+  overflow: visible !important;
+}
+.vehicle-card-gradient:nth-child(3n) {
+  background: linear-gradient(135deg, #232946 0%, #ff7f32 100%);
+}
+.vehicle-card-gradient:nth-child(4n) {
+  background: linear-gradient(135deg, #232946 0%, #ffb347 100%);
+}
+.vehicle-card-gradient:hover {
+  transform: translateY(-9px) scale(1.045);
+  box-shadow: 0 10px 36px rgba(24,90,157,0.22);
+}
+.vehicle-card-gradient img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 0 !important;
+  margin-bottom: 12px;
+  background: #181c2b;
+}
+.vehicle-title {
+  font-size: 1.17rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #111;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+}
+.vehicle-table {
+  font-size: 1.01rem;
+  color: #e8eaf6;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vehicles-loading, .vehicles-empty {
+  color: #fff;
+  font-size: 1.3rem;
+  margin: 64px auto;
+  grid-column: 1/-1;
+  text-align: center;
+}
+@media (max-width: 900px) {
+  .vehicles-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 12px 2vw 18px 2vw;
+  }
+  .vehicle-card-gradient {
+    width: 98vw;
+    min-width: 0;
+    padding: 14px 4vw 10px 4vw;
+  }
+}
+.vehicles-bg {
+  overflow: visible !important;
+}
+
+/* 3D ve basma animasyonlu butonlar */
+.vehicles-bg button, .vehicles-bg a, .vehicle-card-gradient button, .vehicle-card-gradient a {
+  background: linear-gradient(135deg, #ff7f32 0%, #ffb347 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px 0 rgba(255,127,50,0.18), 0 2px 0 #d66a00;
+  padding: 0.82em 2.1em;
+  font-size: 1.09rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.11s cubic-bezier(.4,2,.6,1), box-shadow 0.13s, background 0.18s;
+  margin: 6px 0;
+  outline: none;
+  position: relative;
+}
+.vehicles-bg button:active, .vehicles-bg a:active, .vehicle-card-gradient button:active, .vehicle-card-gradient a:active {
+  transform: translateY(3px) scale(0.97);
+  box-shadow: 0 1px 4px 0 rgba(255,127,50,0.12), 0 1px 0 #d66a00;
+  background: linear-gradient(135deg, #ffb347 0%, #ff7f32 100%);
+}

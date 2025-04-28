@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+.auth-bg-gradient {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, #111 0%, rgba(24,28,43,0.92) 60%, rgba(35,41,70,0.96) 100%), url('customer.jpg') center/cover no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.auth-container {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: rgba(35,41,70,0.92);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.24);
+  padding: 48px 38px 36px 38px;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 340px;
+  max-width: 96vw;
+}
+
+.auth-card h2 {
+  font-size: 2rem;
+  color: #ff7f32;
+  font-weight: 900;
+  margin-bottom: 18px;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+  width: 100%;
+}
+
+.login-form input {
+  background: #181c2b;
+  color: #e8eaf6;
+  border: none;
+  border-radius: 9px;
+  padding: 0.85em 1.1em;
+  font-size: 1.08rem;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  outline: none;
+  margin-bottom: 4px;
+  min-width: 0;
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.profile-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #181c2b;
+}
+
+.error {
+  color: #ff4d4d;
+  margin-top: 14px;
+  font-weight: 700;
+}
+
+.google-btn-3d, .signup-btn-3d, .logout-btn-3d {
+  background: #ff7f32;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.82em 2.1em;
+  font-size: 1.09rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.18s;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.google-btn-3d:active, .signup-btn-3d:active, .logout-btn-3d:active {
+  background: #ff9f4d;
+}
+
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 18px 4vw 18px 4vw;
+    min-width: 0;
+  }
+}

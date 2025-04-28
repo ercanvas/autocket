@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Inter', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+}
+
+.landing-full-bg {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #181c2b 0%, #232946 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-full-content {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.landing-full-title {
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-size: 4.4rem;
+  color: #f3f6fa;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin: 0 0 0.3em 0;
+  text-align: center;
+  line-height: 1.08;
+  text-shadow: 0 4px 24px #0d101e99;
+  flex-shrink: 0;
+}
+
+.landing-full-desc {
+  font-size: 1.5rem;
+  color: #d6dbe9;
+  margin-bottom: 2.4em;
+  font-weight: 500;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.landing-full-3d {
+  width: 100%;
+  height: 470px;
+  background: transparent;
+  border-radius: 36px;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.landing-full-3d.transparent-bg {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.landing-full-search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.1em;
+  margin-top: 1.1em;
+  background: rgba(24,28,43,0.85);
+  padding: 1.3em 2.2em;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px #181c2b33;
+  flex-shrink: 0;
+  position: relative;
+  top: -470px;
+}
+
+.landing-full-search-form select,
+.landing-full-search-form input[type="number"] {
+  background: #232946;
+  color: #e8eaf6;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9em 1.3em;
+  font-size: 1.1rem;
+  min-width: 120px;
+  outline: none;
+  opacity: 0.8;
+}
+
+.landing-full-search-form button {
+  background: #ff7f32;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9em 2.2em;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  cursor: not-allowed;
+  opacity: 0.85;
+  transition: background 0.2s;
+}
+
+.landing-full-search-form button:active {
+  background: #ff9f4d;
+}
+
+@media (max-width: 900px) {
+  .landing-full-title {
+    font-size: 2.3rem;
+  }
+  .landing-full-3d {
+    width: 98vw;
+    min-width: 0;
+    height: 260px;
+    border-radius: 18px;
+  }
+  .landing-full-content {
+    padding-top: 18px;
+  }
+  .landing-full-search-form {
+    flex-direction: column;
+    gap: 0.7em;
+    padding: 1em 0.7em;
+  }
+}

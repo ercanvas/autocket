@@ -1,0 +1,21 @@
+marka,seri,model,yıl,yakıt,vites,araç_durumu,km,kasa_tipi,motor_gucu,motor_hacmi,cekis,renk,garanti,agir_hasarlı,fiyat
+Toyota,Corolla,1.6 Vision,2020,Benzin,Otomatik,Sıfır,0,Sedan,132,1598,Önden Çekiş,Beyaz,Var,Hayır,900000
+Renault,Megane,1.5 DCI,2018,Dizel,Manuel,İkinci El,65000,Sedan,110,1461,Önden Çekiş,Gri,Yok,Hayır,650000
+Volkswagen,Golf,1.4 TSI,2019,Benzin,Otomatik,İkinci El,30000,Hatchback,125,1395,Önden Çekiş,Siyah,Yok,Hayır,800000
+Fiat,Egea,1.3 Multijet,2021,Dizel,Manuel,Sıfır,0,Sedan,95,1248,Önden Çekiş,Beyaz,Var,Hayır,780000
+BMW,3 Serisi,320i,2017,Benzin,Otomatik,İkinci El,90000,Sedan,170,1998,Arkadan İtiş,Mavi,Yok,Hayır,1200000
+Hyundai,i20,1.4 MPI,2022,Benzin,Otomatik,Sıfır,0,Hatchback,100,1368,Önden Çekiş,Kırmızı,Var,Hayır,700000
+Peugeot,3008,1.6 BlueHDi,2019,Dizel,Otomatik,İkinci El,40000,SUV,120,1560,Önden Çekiş,Gri,Yok,Hayır,1100000
+Ford,Focus,1.5 TDCi,2016,Dizel,Manuel,İkinci El,120000,Sedan,120,1499,Önden Çekiş,Beyaz,Yok,Hayır,600000
+Mercedes,C Serisi,C200,2020,Benzin,Otomatik,Sıfır,0,Sedan,184,1991,Arkadan İtiş,Siyah,Var,Hayır,1800000
+Opel,Astra,1.6 CDTI,2018,Dizel,Manuel,İkinci El,80000,Hatchback,136,1598,Önden Çekiş,Mavi,Yok,Hayır,750000
+Fiat,Egea,1.3 Multijet Urban,2022,Dizel,Manuel,İkinci El,15000,Sedan,95,1248,Önden Çekiş,Beyaz,Var,Hayır,820000
+Renault,Clio,1.0 TCe Joy,2021,Benzin,Manuel,İkinci El,10000,Hatchback,90,999,Önden Çekiş,Kırmızı,Var,Hayır,640000
+Volkswagen,Passat,2.0 TDI Highline,2019,Dizel,Otomatik,İkinci El,40000,Sedan,190,1968,Önden Çekiş,Gri,Yok,Hayır,1450000
+Toyota,Yaris,1.5 Dream,2022,Benzin,Otomatik,Sıfır,0,Hatchback,125,1490,Önden Çekiş,Mavi,Var,Hayır,950000
+Hyundai,Elantra,1.6 MPI Style,2020,Benzin,Otomatik,İkinci El,25000,Sedan,123,1591,Önden Çekiş,Beyaz,Yok,Hayır,880000
+BMW,5 Serisi,520d Luxury,2018,Dizel,Otomatik,İkinci El,80000,Sedan,190,1995,Arkadan İtiş,Siyah,Yok,Hayır,1850000
+Peugeot,208,1.2 PureTech Active,2021,Benzin,Manuel,Sıfır,0,Hatchback,100,1199,Önden Çekiş,Sarı,Var,Hayır,790000
+Ford,Kuga,1.5 EcoBoost Titanium,2020,Benzin,Otomatik,İkinci El,20000,SUV,182,1496,4x4,Gri,Yok,Hayır,1250000
+Hyundai ,i20,1.4 CRDi Jump,2016,Dizel,Manuel,İkinci El,230000,Hatchback,90,1396,Önden Çekiş,Beyaz,Yok,Evet,731000
+Mercedes-Benz,A Serisi,A 180 d Urban,2017,Dizel,Otomatik,İkinci El,75000,Hatchback,109,1461,Önden Çekiş,Beyaz,Yok,Hayır,935100

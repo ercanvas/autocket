@@ -1,0 +1,11 @@
+{
+  "projects": {},
+  "builds": [
+    {
+      "src": "autocket/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "autocket/build" }
+    }
+  ],
+  "ignoreCommand": "echo 'Ignore root except autocket'"
+}
