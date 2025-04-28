@@ -4,11 +4,13 @@ export async function fetchRates() {
   const res = await fetch(API);
   if (!res.ok) throw new Error('Failed to fetch currency rates');
   const data = await res.json();
-  return data.rates;
+  // Always include TRY as 1
+  return { TRY: 1, ...data.rates };
 }
 
 export function convertPrice(amount, from, to, rates) {
-  if (from === to) return amount;
-  if (!rates || !rates[to]) return amount;
-  return amount * rates[to];
+  if (!rates || !rates[from] || !rates[to]) return amount;
+  // Convert to base TRY, then to target
+  const amountInTry = amount / rates[from];
+  return amountInTry * rates[to];
 }
