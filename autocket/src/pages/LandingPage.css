@@ -141,3 +141,78 @@ html, body, #root {
     padding: 1em 0.7em;
   }
 }
+
+@media (max-width: 600px) {
+  .landing-full-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.4em;
+    letter-spacing: -1px;
+    line-height: 1.12;
+  }
+  .landing-full-desc {
+    font-size: 0.98rem;
+    margin-bottom: 1.3em;
+    padding: 0 0.5em;
+  }
+  .landing-full-3d {
+    height: 120px;
+    border-radius: 10px;
+  }
+  .landing-full-content {
+    padding-top: 8px;
+    height: auto;
+    min-height: 100vh;
+  }
+  .landing-full-search-form {
+    padding: 0.6em 0.3em;
+    gap: 0.4em;
+    border-radius: 8px;
+    top: -120px;
+  }
+  .landing-full-search-form select,
+  .landing-full-search-form input[type="number"] {
+    font-size: 0.88rem;
+    padding: 0.5em 0.7em;
+    border-radius: 6px;
+    min-width: 80px;
+  }
+  .landing-full-search-form button {
+    font-size: 0.92rem;
+    padding: 0.6em 1.2em;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .landing-full-title {
+    font-size: 0.87rem;
+    margin-bottom: 0.2em;
+  }
+  .landing-full-desc {
+    font-size: 0.71rem;
+    margin-bottom: 0.7em;
+    padding: 0 0.2em;
+  }
+  .landing-full-3d {
+    height: 60px;
+    border-radius: 6px;
+  }
+  .landing-full-search-form {
+    padding: 0.2em 0.1em;
+    gap: 0.2em;
+    border-radius: 4px;
+    top: -60px;
+  }
+  .landing-full-search-form select,
+  .landing-full-search-form input[type="number"] {
+    font-size: 0.65rem;
+    padding: 0.3em 0.4em;
+    border-radius: 4px;
+    min-width: 50px;
+  }
+  .landing-full-search-form button {
+    font-size: 0.68rem;
+    padding: 0.3em 0.5em;
+    border-radius: 4px;
+  }
+}

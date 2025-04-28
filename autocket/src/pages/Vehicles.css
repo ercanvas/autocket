@@ -92,6 +92,71 @@
     padding: 14px 4vw 10px 4vw;
   }
 }
+@media (max-width: 600px) {
+  .vehicles-bg {
+    padding-top: 36px;
+  }
+  .vehicles-grid {
+    gap: 10px;
+    padding: 4px 1vw 8px 1vw;
+  }
+  .vehicle-card-gradient {
+    width: 94vw;
+    min-width: 0;
+    padding: 7px 2vw 7px 2vw;
+    border-radius: 8px !important;
+    min-height: 120px;
+  }
+  .vehicle-card-gradient img {
+    width: 70px;
+    height: 44px;
+    margin-bottom: 6px;
+    border-radius: 4px !important;
+  }
+  .vehicle-title {
+    font-size: 0.97rem;
+    margin-bottom: 4px;
+  }
+  .vehicle-table {
+    font-size: 0.91rem;
+  }
+  .vehicles-loading, .vehicles-empty {
+    font-size: 0.99rem;
+    margin: 22px auto;
+  }
+  .vehicles-bg button, .vehicles-bg a, .vehicle-card-gradient button, .vehicle-card-gradient a {
+    font-size: 0.91rem;
+    padding: 0.5em 1em;
+    border-radius: 7px;
+    margin: 3px 0;
+  }
+}
+@media (max-width: 400px) {
+  .vehicle-card-gradient {
+    width: 99vw;
+    padding: 3px 0.5vw 3px 0.5vw;
+    border-radius: 4px !important;
+    min-height: 80px;
+  }
+  .vehicle-card-gradient img {
+    width: 44px;
+    height: 28px;
+    margin-bottom: 2px;
+    border-radius: 2px !important;
+  }
+  .vehicle-title {
+    font-size: 0.77rem;
+  }
+  .vehicle-table {
+    font-size: 0.74rem;
+  }
+  .vehicles-bg button, .vehicles-bg a, .vehicle-card-gradient button, .vehicle-card-gradient a {
+    font-size: 0.75rem;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+    margin: 1px 0;
+  }
+}
 .vehicles-bg {
   overflow: visible !important;
 }
