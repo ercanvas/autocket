@@ -13,7 +13,7 @@ export default function Header() {
     <header className="main-header">
       <nav className="header-nav">
         <div className="header-left">
-          <Link to="/" className="header-logo">autocket 2</Link>
+          <Link to="/" className="header-logo">autocket 23</Link>
           <Link to="/add-vehicle" className="header-link">Add Vehicle</Link>
         </div>
         <div className="header-center">
