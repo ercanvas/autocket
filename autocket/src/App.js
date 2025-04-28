@@ -10,6 +10,7 @@ import MyVehicles from './pages/MyVehicles';
 import Profile from './pages/Profile';
 import CurrencySelector from './components/CurrencySelector';
 import { fetchRates } from './utils/currency';
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/my-vehicles" element={<MyVehicles currency={currency} setCurrency={setCurrency} rates={rates} />} />
         <Route path="/profile" element={<Profile currency={currency} setCurrency={setCurrency} rates={rates} />} />
       </Routes>
+      <Analytics />
     </Router>
   );
 }
