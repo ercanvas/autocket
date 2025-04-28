@@ -133,7 +133,7 @@ export default function VehicleDetail() {
       <Link to="/vehicles" className="back-link-absolute">← All Vehicles</Link>
       <div className="vehicle-detail-mainbox no-radius">
         <div className="vehicle-detail-img-large-wrapper no-radius">
-          <img src={vehicle.resim_url || 'https://via.placeholder.com/800x400?text=Vehicle'} alt="Vehicle" className="vehicle-detail-img-large no-radius" />
+          <img src={vehicle.image_url || vehicle.resim_url || 'https://via.placeholder.com/800x400?text=Vehicle'} alt="Vehicle" className="vehicle-detail-img-large no-radius" />
         </div>
         <div className="vehicle-detail-title vehicle-detail-title-left vehicle-detail-title-large-only">
           <h2>{vehicle.marka} {vehicle.seri} {vehicle.model}</h2>

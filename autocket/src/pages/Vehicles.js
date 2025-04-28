@@ -26,7 +26,7 @@ export default function Vehicles() {
         ) : (
           vehicles.map((v, i) => (
             <Link to={`/vehicles/${v.id}`} key={v.id} className="vehicle-card-gradient">
-              <img src={v.resim_url || 'https://via.placeholder.com/120x80?text=Vehicle'} alt="Vehicle" />
+              <img src={v.image_url || v.resim_url || 'https://via.placeholder.com/120x80?text=Vehicle'} alt="Vehicle" />
               <div className="vehicle-title">{v.marka} {v.seri} {v.model}</div>
               <div className="vehicle-table">
                 <div><b>Price:</b> {v.fiyat} TL</div>
