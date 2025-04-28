@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { getAuth } from 'firebase/auth';
 import './Comments.css';
 
 export default function Comments({ vehicleId, onClose }) {
@@ -15,10 +16,10 @@ export default function Comments({ vehicleId, onClose }) {
 
   async function fetchComments() {
     setLoading(true);
-    // Kullanıcı adı ve profil resmi için users tablosundan join ile çekiyoruz
+    // firebase_uid ile users tablosundan join
     const { data, error } = await supabase
       .from('comments')
-      .select('*, users(name, avatar_url)')
+      .select('*, users(name, avatar_url, firebase_uid)')
       .eq('vehicle_id', vehicleId)
       .order('created_at', { ascending: false });
     if (error) setError(error.message);
@@ -30,13 +31,15 @@ export default function Comments({ vehicleId, onClose }) {
     e.preventDefault();
     setError(null);
     if (!newComment.trim()) return;
-    // Kullanıcı id'si varsa ekle, yoksa anonim
-    let user_id = null;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) user_id = user.id;
+    // Firebase UID'yi al
+    let firebase_uid = null;
+    try {
+      const auth = getAuth();
+      firebase_uid = auth.currentUser ? auth.currentUser.uid : null;
+    } catch (err) {}
     const { error } = await supabase
       .from('comments')
-      .insert({ vehicle_id: vehicleId, text: newComment, user_id });
+      .insert({ vehicle_id: vehicleId, text: newComment, firebase_uid: firebase_uid || null });
     if (error) setError(error.message);
     else {
       setNewComment('');
