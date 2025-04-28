@@ -234,9 +234,18 @@ export default function VehicleDetail() {
 
   // Helper to extract numeric value and currency code from price string
   function parsePrice(priceStr) {
+    // Accept both string and number
+    if (typeof priceStr === 'number') {
+      return { amount: priceStr, code: currency };
+    }
     if (!priceStr || typeof priceStr !== 'string') return { amount: 0, code: currency };
     const match = priceStr.replace(/\u00A0/g, ' ').match(/([\d.,]+)\s*([A-Z]{3})/);
-    if (!match) return { amount: Number(String(priceStr).replace(/[^\d.,]/g, '').replace(',', '')), code: currency };
+    if (!match) {
+      // Try to parse as plain number (no currency code)
+      const num = Number(priceStr.replace(/[^\d.,]/g, '').replace(',', '.'));
+      return { amount: isNaN(num) ? 0 : num, code: currency };
+    }
+    // Remove thousands separator and parse float
     let num = match[1].replace(/,/g, '').replace(/\./g, '.');
     return { amount: parseFloat(num), code: match[2] };
   }
