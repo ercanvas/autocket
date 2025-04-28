@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase';
 import './VehicleDetail.css';
 import Comments from '../components/Comments';
 import LikeTooltip from '../components/LikeTooltip';
-import './LikeTooltip.css';
+import '../components/LikeTooltip.css';
 import { Favorite, FavoriteBorder, ChatBubbleOutline } from '@mui/icons-material';
 import { getAuth } from 'firebase/auth';
 
