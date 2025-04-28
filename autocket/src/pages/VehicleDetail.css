@@ -156,9 +156,9 @@
   width: 60vw;
   min-width: 320px;
   max-width: 900px;
-  height: 400px;
-  margin-top: 90px;
-  margin-bottom: 40px;
+  height: 600px;
+  margin-top: 60px;
+  margin-bottom: 20px;
   background: rgba(24,28,43,0.96);
   box-shadow: 0 8px 40px #23294633;
   position: relative;
