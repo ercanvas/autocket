@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { PersonIcon, EmailIcon, CalendarMonthIcon, DirectionsCarIcon, FavoriteIcon, PhoneIcon, EditIcon, LogoutIcon, DeleteIcon, ListAltIcon } from './muiIcons';
 import ProfileBanner from './ProfileBanner';
 import './ProfileBanner.css';
+import './Profile.css';
 
 export default function Profile() {
   const [user, setUser] = useState(null);
