@@ -234,11 +234,9 @@ export default function VehicleDetail() {
 
   // Helper to extract numeric value and currency code from price string
   function parsePrice(priceStr) {
-    // Example: "778.681 JPY" or "1,234,567 EUR"
-    if (!priceStr) return { amount: 0, code: 'TRY' };
+    if (!priceStr || typeof priceStr !== 'string') return { amount: 0, code: currency };
     const match = priceStr.replace(/\u00A0/g, ' ').match(/([\d.,]+)\s*([A-Z]{3})/);
-    if (!match) return { amount: Number(priceStr.replace(/[^\d.,]/g, '').replace(',', '')), code: currency };
-    // Remove thousands separator and parse float
+    if (!match) return { amount: Number(String(priceStr).replace(/[^\d.,]/g, '').replace(',', '')), code: currency };
     let num = match[1].replace(/,/g, '').replace(/\./g, '.');
     return { amount: parseFloat(num), code: match[2] };
   }
