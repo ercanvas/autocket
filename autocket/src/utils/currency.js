@@ -1,6 +1,6 @@
 // Utility to fetch and cache live currency rates
 export async function fetchRates() {
-  const API = 'https://api.exchangerate.host/latest?base=TRY'; // Free, no key required
+  const API = 'https://api.exchangerate.host/latest?base=TRY&apikey=cb209632eb976311ed0378497b2ec8f2';
   const res = await fetch(API);
   if (!res.ok) throw new Error('Failed to fetch currency rates');
   const data = await res.json();
