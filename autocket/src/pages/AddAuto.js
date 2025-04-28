@@ -52,7 +52,7 @@ export default function AddAuto() {
     setResult(null);
     setShowSave(false);
     try {
-      const res = await fetch('http://localhost:3000/tahmin', {
+      const res = await fetch('https://autocket.onrender.com/tahmin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
